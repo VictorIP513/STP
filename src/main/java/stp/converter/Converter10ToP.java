@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Converter10ToP {
+public abstract class Converter10ToP {
 
     private static final Map<Integer, Character> DIGITS;
     private static final int MAXBASE = 16;
@@ -32,23 +32,25 @@ public class Converter10ToP {
         DIGITS.put(15, 'F');
     }
 
-    private Converter10ToP() {
-
-    }
-
-    public static String convert(BigDecimal value, int base, int precision) {
+    public static String convert(String valueString, int base, int precision) throws IllegalArgumentException {
         if (base < MINBASE || base > MAXBASE) {
             throw new IllegalArgumentException("Base must be from " + MINBASE + " to " + MAXBASE);
         }
         if (precision < 0 || precision > MAXPRECISION) {
             throw new IllegalArgumentException("Precision must be from 0 to " + MAXPRECISION);
         }
+        BigDecimal value = new BigDecimal(valueString);
         value = value.stripTrailingZeros();
-        BigInteger num = value.toBigInteger();
-        StringBuilder intResult = convertBigInteger(num, base);
+        BigInteger number = value.toBigInteger();
+        StringBuilder intResult = convertBigInteger(number, base);
 
-        if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO) || precision == 0) {
+        if (precision == 0) {
             return intResult.toString();
+        }
+        if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO)){
+            StringBuilder sb = new StringBuilder();
+            addZerosToFractionPart(sb, precision);
+            return intResult.toString() + "." + sb.toString();
         }
 
         BigInteger fraction = new BigInteger(value.toString().split("\\.")[1]);
@@ -85,16 +87,19 @@ public class Converter10ToP {
     }
 
     private static StringBuilder convertBigInteger(BigInteger value, int base){
-        StringBuilder intResult = new StringBuilder();
+        if (value.equals(BigInteger.ZERO)){
+            return new StringBuilder("0");
+        }
+        StringBuilder result = new StringBuilder();
         boolean negative = (value.compareTo(BigInteger.ZERO) < 0);
         while (!value.equals(BigInteger.ZERO)) {
-            intResult.append(DIGITS.get(value.remainder(BigInteger.valueOf(base)).intValue()));
+            result.append(DIGITS.get(value.remainder(BigInteger.valueOf(base)).intValue()));
             value = value.divide(BigInteger.valueOf(base));
         }
         if (negative) {
-            intResult.append('-');
+            result.append('-');
         }
-        intResult.reverse();
-        return intResult;
+        result.reverse();
+        return result;
     }
 }
