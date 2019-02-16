@@ -10,7 +10,7 @@ public class Converter10ToP {
     private static final Map<Integer, Character> DIGITS;
     private static final int MAXBASE = 16;
     private static final int MINBASE = 2;
-    private static final int MAXPRECISION = 10;
+    private static final int MAXPRECISION = 100;
 
     static {
         DIGITS = new HashMap<>();
@@ -45,44 +45,57 @@ public class Converter10ToP {
         }
         value = value.stripTrailingZeros();
         BigInteger num = value.toBigInteger();
-        StringBuilder intResult = new StringBuilder();
-        StringBuilder fracResult = new StringBuilder();
-        while (!num.equals(BigInteger.ZERO)) {
-            intResult.append(num.remainder(BigInteger.valueOf(base)));
-            num = num.divide(BigInteger.valueOf(base));
-        }
-        if (value.compareTo(BigDecimal.ZERO) < 0) {
-            intResult.append('-');
-        }
-        intResult.reverse();
-        if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO)) {
+        StringBuilder intResult = convertBigInteger(num, base);
+
+        if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO) || precision == 0) {
             return intResult.toString();
         }
-        BigInteger frac = new BigInteger(value.toString().split(".")[1]);
 
-        while (!frac.equals(BigInteger.ZERO)) {
-            fracResult.append(frac.remainder(BigInteger.valueOf(base)));
-            frac = frac.divide(BigInteger.valueOf(base));
+        BigInteger fraction = new BigInteger(value.toString().split("\\.")[1]);
+        StringBuilder fractionResult = convertBigInteger(fraction, base);
+        fractionResult.reverse();
+        fractionResult.append(zerosAfterComma(value.toString()));
+        fractionResult.reverse();
+        intResult.append(".");
+        if (fractionResult.length() > precision) {
+            fractionResult.delete(precision, fractionResult.length());
+        } else {
+            addZerosToFractionPart(fractionResult, precision);
         }
-        fracResult.append(zerosAfterComma(value.toString()));
-        fracResult.reverse();
-        intResult.append(fracResult);
+        intResult.append(fractionResult);
         return intResult.toString();
     }
 
-    private char getCharFromNumber(int number) {
-        return DIGITS.get(number);
-    }
-
     private static String zerosAfterComma(String value) {
-        value = value.split(".")[1];
+        value = value.split("\\.")[1];
         StringBuilder zeros = new StringBuilder();
         for (char ch : value.toCharArray()) {
-            if (ch != '0'){
+            if (ch != '0') {
                 break;
             }
             zeros.append("0");
         }
         return zeros.toString();
+    }
+
+    private static StringBuilder addZerosToFractionPart(StringBuilder builder, int precision) {
+        for (int i = builder.length(); i < precision; i++) {
+            builder.append('0');
+        }
+        return builder;
+    }
+
+    private static StringBuilder convertBigInteger(BigInteger value, int base){
+        StringBuilder intResult = new StringBuilder();
+        boolean negative = (value.compareTo(BigInteger.ZERO) < 0);
+        while (!value.equals(BigInteger.ZERO)) {
+            intResult.append(DIGITS.get(value.remainder(BigInteger.valueOf(base)).intValue()));
+            value = value.divide(BigInteger.valueOf(base));
+        }
+        if (negative) {
+            intResult.append('-');
+        }
+        intResult.reverse();
+        return intResult;
     }
 }

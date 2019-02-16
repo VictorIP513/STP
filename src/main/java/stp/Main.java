@@ -7,8 +7,7 @@ import java.math.BigDecimal;
 public class Main {
 
     public static void main(String[] args) {
-        //Converter10ToP.convert(new BigDecimal("256.00256"))
-        BigDecimal v = new BigDecimal("10000001432400");
-        System.out.println(v);
+        String s = Converter10ToP.convert(new BigDecimal("254.1021"), 2, 100);
+        System.out.println(s);
     }
 }
