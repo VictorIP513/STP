@@ -78,11 +78,10 @@ public class Converter10ToP {
         return zeros.toString();
     }
 
-    private static StringBuilder addZerosToFractionPart(StringBuilder builder, int precision) {
+    private static void addZerosToFractionPart(StringBuilder builder, int precision) {
         for (int i = builder.length(); i < precision; i++) {
             builder.append('0');
         }
-        return builder;
     }
 
     private static StringBuilder convertBigInteger(BigInteger value, int base){
