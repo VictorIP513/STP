@@ -93,7 +93,7 @@ public abstract class Converter10ToP {
         StringBuilder result = new StringBuilder();
         boolean negative = (value.compareTo(BigInteger.ZERO) < 0);
         while (!value.equals(BigInteger.ZERO)) {
-            result.append(DIGITS.get(value.remainder(BigInteger.valueOf(base)).intValue()));
+            result.append(DIGITS.get(Math.abs(value.remainder(BigInteger.valueOf(base)).intValue())));
             value = value.divide(BigInteger.valueOf(base));
         }
         if (negative) {
