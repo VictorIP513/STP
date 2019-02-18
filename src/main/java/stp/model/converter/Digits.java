@@ -1,4 +1,4 @@
-package stp.converter;
+package stp.model.converter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,13 +46,14 @@ class Digits {
     }
 
     static int getDigitFromChar(char hexDigit) throws IllegalArgumentException {
-        if (!DIGITSFROMCHAR.containsKey(hexDigit)){
+        if (!DIGITSFROMCHAR.containsKey(hexDigit)) {
             throw new IllegalArgumentException("Digit must be from 0 to F");
         }
         return DIGITSFROMCHAR.get(hexDigit);
     }
+
     static char getDigitFromInt(int digit) throws IllegalArgumentException {
-        if (!DIGITSFROMINT.containsKey(digit)){
+        if (!DIGITSFROMINT.containsKey(digit)) {
             throw new IllegalArgumentException("Digit must be from 0 to 9");
         }
         return DIGITSFROMINT.get(digit);

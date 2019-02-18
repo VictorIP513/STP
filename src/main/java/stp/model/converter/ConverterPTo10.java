@@ -1,4 +1,4 @@
-package stp.converter;
+package stp.model.converter;
 
 import java.math.BigInteger;
 
@@ -18,7 +18,7 @@ public abstract class ConverterPTo10 {
         String[] stringArray = value.split("\\.");
         BigInteger number = convertBigInteger(stringArray[0], base);
         String fraction = "";
-        if (stringArray.length > 1){
+        if (stringArray.length > 1) {
             fraction = convertBigInteger(stringArray[1], base).toString();
             fraction = zerosAfterComma(value) + fraction;
         }
@@ -61,9 +61,9 @@ public abstract class ConverterPTo10 {
         return builder;
     }
 
-    private static String cutTrailingZeros(String value){
+    private static String cutTrailingZeros(String value) {
         StringBuilder sb = new StringBuilder(value);
-        while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0'){
+        while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0') {
             sb.deleteCharAt(sb.length() - 1);
         }
         return sb.toString();

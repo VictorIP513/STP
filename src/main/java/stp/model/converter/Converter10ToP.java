@@ -1,9 +1,7 @@
-package stp.converter;
+package stp.model.converter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Converter10ToP {
 
@@ -26,7 +24,7 @@ public abstract class Converter10ToP {
         if (precision == 0) {
             return intResult.toString();
         }
-        if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO)){
+        if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO)) {
             StringBuilder sb = new StringBuilder();
             addZerosToFractionPart(sb, precision);
             return intResult.toString() + "." + sb.toString();
@@ -65,8 +63,8 @@ public abstract class Converter10ToP {
         }
     }
 
-    private static StringBuilder convertBigInteger(BigInteger value, int base){
-        if (value.equals(BigInteger.ZERO)){
+    private static StringBuilder convertBigInteger(BigInteger value, int base) {
+        if (value.equals(BigInteger.ZERO)) {
             return new StringBuilder("0");
         }
         StringBuilder result = new StringBuilder();
