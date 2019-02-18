@@ -1,16 +1,22 @@
 package stp;
 
-import stp.converter.Converter10ToP;
-import stp.converter.ConverterPTo10;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import java.math.BigDecimal;
+public class Main extends Application {
 
-public class Main {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/converter.fxml"));
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.show();
+    }
 
     public static void main(String[] args) {
-        String s = Converter10ToP.convert("-238957209.02389572090", 12, 15);
-        String s1 = ConverterPTo10.convert("-238957209.02389572090", 12, 15);
-        System.out.println(s);
-        System.out.println(s1);
+        launch(args);
     }
 }
