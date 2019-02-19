@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-      xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" prefHeight="420.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="stp.controller.ConverterController">
     <MenuBar>
         <Menu fx:id="menuExit" mnemonicParsing="false" text="Выход"/>
         <Menu fx:id="menuHistory" mnemonicParsing="false" text="История"/>
@@ -35,13 +24,18 @@
                     <Insets right="5.0" top="10.0"/>
                 </HBox.margin>
             </Label>
-            <Spinner fx:id="spinnerInputBase" prefHeight="25.0" prefWidth="50.0">
+            <Spinner fx:id="spinnerInputBase" prefHeight="25.0" prefWidth="55.0">
+                <valueFactory>
+                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="10" max="16"
+                                                                    min="2"/>
+                </valueFactory>
                 <HBox.margin>
                     <Insets right="15.0" top="10.0"/>
                 </HBox.margin>
             </Spinner>
         </HBox>
-        <Slider fx:id="sliderInputBase">
+        <Slider fx:id="sliderInputBase" blockIncrement="1.0" majorTickUnit="1.0" max="16.0" min="2.0" minorTickCount="1"
+                showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0">
             <VBox.margin>
                 <Insets left="15.0" right="15.0" top="10.0"/>
             </VBox.margin>
@@ -74,13 +68,19 @@
                     <Insets right="5.0" top="10.0"/>
                 </HBox.margin>
             </Label>
-            <Spinner fx:id="spinnerOutputBase" prefHeight="25.0" prefWidth="50.0">
+            <Spinner fx:id="spinnerOutputBase" prefHeight="25.0" prefWidth="55.0">
+                <valueFactory>
+                    <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" initialValue="2" max="16"
+                                                                    min="2"/>
+                </valueFactory>
                 <HBox.margin>
                     <Insets right="15.0" top="10.0"/>
                 </HBox.margin>
             </Spinner>
         </HBox>
-        <Slider layoutX="10.0" layoutY="135.0">
+        <Slider fx:id="sliderOutputBase" blockIncrement="1.0" layoutX="10.0" layoutY="135.0" majorTickUnit="1.0"
+                max="16.0" min="2.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true"
+                value="2.0">
             <VBox.margin>
                 <Insets left="15.0" right="15.0" top="10.0"/>
             </VBox.margin>
