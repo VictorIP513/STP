@@ -1,4 +1,4 @@
-package stp.converter;
+package stp.model.converter;
 
 import java.math.BigInteger;
 import java.util.HashMap;

@@ -3,7 +3,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <VBox alignment="TOP_CENTER" prefHeight="420.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="stp.controller.ConverterController">
     <MenuBar>
@@ -12,7 +11,7 @@
         <Menu mnemonicParsing="false" text="Справка"/>
     </MenuBar>
     <VBox prefHeight="200.0" prefWidth="100.0">
-        <TextField fx:id="textFieldInputValue" layoutX="10.0" layoutY="10.0">
+        <TextField fx:id="textFieldInputValue" layoutX="10.0" layoutY="10.0" stylesheets="@css/style.css">
             <VBox.margin>
                 <Insets left="15.0" right="15.0" top="10.0"/>
             </VBox.margin>
@@ -139,8 +138,8 @@
                     GridPane.columnIndex="3" GridPane.rowIndex="2"/>
             <Button fx:id="buttonF" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="F"
                     GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-            <Button fx:id="buttonExecute" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Execute"
-                    GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+            <Button fx:id="buttonExecute" mnemonicParsing="false" onMouseClicked="#buttonExecuteOnMouseClicked"
+                    prefHeight="25.0" prefWidth="60.0" text="=" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
         </GridPane>
     </VBox>
 </VBox>
