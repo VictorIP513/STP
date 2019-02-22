@@ -24,7 +24,8 @@ jfx {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.4.0'
 }
 
 group 'STP2'
