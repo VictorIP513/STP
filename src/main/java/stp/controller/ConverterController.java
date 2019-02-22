@@ -1,13 +1,16 @@
 package stp.controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import stp.model.ConverterModel;
 
 public class ConverterController {
@@ -17,6 +20,9 @@ public class ConverterController {
 
     @FXML
     private Spinner<Integer> spinnerOutputBase;
+
+    @FXML
+    private Spinner<Integer> spinnerPrecision;
 
     @FXML
     private Slider sliderInputBase;
@@ -30,6 +36,12 @@ public class ConverterController {
     @FXML
     private TextField textFieldIOutputValue;
 
+    @FXML
+    private Button buttonExecute;
+
+    @FXML
+    private GridPane gridPaneButtons;
+
     private ConverterModel converterModel;
 
     public ConverterController() {
@@ -41,33 +53,68 @@ public class ConverterController {
         configureSpinners();
         configureSliders();
         configureTextFields();
+        updateButtons();
     }
 
     @FXML
-    private void buttonExecuteOnMouseClicked(MouseEvent mouseEvent) {
+    private void buttonExecuteClicked() {
         String value = textFieldInputValue.getText();
         int inputBase = spinnerInputBase.getValue();
         int outputBase = spinnerOutputBase.getValue();
-        int precision = 10;
+        int precision = spinnerPrecision.getValue();
         String result = converterModel.convertValue(value, inputBase, outputBase, precision);
         textFieldIOutputValue.setText(result);
     }
 
+    @FXML
+    private void buttonDigitClicked(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        String digitText = button.getText();
+        textFieldInputValue.setText(textFieldInputValue.getText() + digitText);
+    }
+
+    @FXML
+    private void buttonClearClicked() {
+        textFieldInputValue.clear();
+        textFieldIOutputValue.clear();
+    }
+
+    @FXML
+    public void buttonBackSpaceClicked() {
+        String textInInputTextField = textFieldInputValue.getText();
+        if (!textInInputTextField.isEmpty()) {
+            textFieldInputValue.setText(textInInputTextField.substring(0, textInInputTextField.length() - 1));
+            textFieldIOutputValue.clear();
+        }
+    }
+
     private void configureSpinners() {
-        spinnerInputBase.valueProperty().addListener(
-                (observable, oldValue, newValue) -> sliderInputBase.setValue(newValue));
-        spinnerOutputBase.valueProperty().addListener(
-                (observable, oldValue, newValue) -> sliderOutputBase.setValue(newValue));
+        spinnerInputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
+            sliderInputBase.setValue(newValue);
+            updateButtons();
+            textFieldInputValue.clear();
+        });
+        spinnerOutputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
+            sliderOutputBase.setValue(newValue);
+            updateButtons();
+            textFieldInputValue.clear();
+        });
 
         disableContextMenu(spinnerInputBase);
         disableContextMenu(spinnerOutputBase);
     }
 
     private void configureSliders() {
-        sliderInputBase.valueProperty().addListener(
-                (observable, oldValue, newValue) -> spinnerInputBase.getValueFactory().setValue(newValue.intValue()));
-        sliderOutputBase.valueProperty().addListener(
-                (observable, oldValue, newValue) -> spinnerOutputBase.getValueFactory().setValue(newValue.intValue()));
+        sliderInputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
+            spinnerInputBase.getValueFactory().setValue(newValue.intValue());
+            updateButtons();
+            textFieldInputValue.clear();
+        });
+        sliderOutputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
+            spinnerOutputBase.getValueFactory().setValue(newValue.intValue());
+            updateButtons();
+            textFieldInputValue.clear();
+        });
     }
 
     private void configureTextFields() {
@@ -75,22 +122,25 @@ public class ConverterController {
         configureOutputTextField();
     }
 
-    private <T extends Node> void disableContextMenu(T element) {
-        element.addEventFilter(ContextMenuEvent.CONTEXT_MENU_REQUESTED, Event::consume);
-    }
-
     private void configureInputTextField() {
         textFieldInputValue.textProperty().addListener((observable, oldValue, newValue) -> {
+            textFieldIOutputValue.clear();
+            String textFieldValidationErrorStyleName = "form_validation_error";
             int currentBase = spinnerInputBase.getValue();
+
             if (newValue.isEmpty()) {
+                textFieldInputValue.getStyleClass().remove(textFieldValidationErrorStyleName);
+                buttonExecute.setDisable(true);
                 return;
             }
             if (!converterModel.isCorrectInputValueFormValidation(newValue, currentBase)) {
-                if (!textFieldInputValue.getStyleClass().contains("form_validation_error")) {
-                    textFieldInputValue.getStyleClass().add("form_validation_error");
+                if (!textFieldInputValue.getStyleClass().contains(textFieldValidationErrorStyleName)) {
+                    textFieldInputValue.getStyleClass().add(textFieldValidationErrorStyleName);
                 }
+                buttonExecute.setDisable(true);
             } else {
-                textFieldInputValue.getStyleClass().remove("form_validation_error");
+                textFieldInputValue.getStyleClass().remove(textFieldValidationErrorStyleName);
+                buttonExecute.setDisable(false);
             }
         });
 
@@ -99,5 +149,21 @@ public class ConverterController {
 
     private void configureOutputTextField() {
         disableContextMenu(textFieldIOutputValue);
+    }
+
+    private void updateButtons() {
+        int base = spinnerInputBase.getValue();
+        ObservableList<Node> buttons = gridPaneButtons.getChildren();
+        for (Node element : buttons) {
+            Button button = (Button) element;
+            int buttonDigitText = converterModel.getValueFromHexString(button.getText());
+            if (buttonDigitText != -1) {
+                button.setDisable(buttonDigitText >= base);
+            }
+        }
+    }
+
+    private <T extends Node> void disableContextMenu(T element) {
+        element.addEventFilter(ContextMenuEvent.CONTEXT_MENU_REQUESTED, Event::consume);
     }
 }
