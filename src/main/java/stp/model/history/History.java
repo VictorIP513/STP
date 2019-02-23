@@ -1,4 +1,4 @@
-package stp.model;
+package stp.model.history;
 
 import java.util.ArrayList;
 import java.util.List;

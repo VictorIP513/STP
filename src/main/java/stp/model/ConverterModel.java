@@ -11,7 +11,7 @@ public class ConverterModel {
     private static final Map<Integer, String> VALIDATION_REGEXPS;
 
     static {
-        VALIDATION_REGEXPS = new HashMap<>(14);
+        VALIDATION_REGEXPS = new HashMap<>(15);
         VALIDATION_REGEXPS.put(2, "[0-1]+(\\.[0-1]+)?");
         VALIDATION_REGEXPS.put(3, "[0-2]+(\\.[0-2]+)?");
         VALIDATION_REGEXPS.put(4, "[0-3]+(\\.[0-3]+)?");

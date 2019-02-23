@@ -1,4 +1,4 @@
-package stp.model;
+package stp.model.history;
 
 public class HistoryItem {
     private String fromValue;
