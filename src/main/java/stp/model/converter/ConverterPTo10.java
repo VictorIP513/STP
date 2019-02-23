@@ -3,6 +3,7 @@ package stp.model.converter;
 import java.math.BigInteger;
 
 public abstract class ConverterPTo10 {
+
     private static final int MAXBASE = 16;
     private static final int MINBASE = 2;
     private static final int MAXPRECISION = 100;
@@ -18,6 +19,7 @@ public abstract class ConverterPTo10 {
         String[] stringArray = value.split("\\.");
         BigInteger number = convertBigInteger(stringArray[0], base);
         String fraction = "";
+
         if (stringArray.length > 1) {
             fraction = convertBigInteger(stringArray[1], base).toString();
             fraction = zerosAfterComma(value) + fraction;

@@ -24,6 +24,7 @@ public abstract class Converter10ToP {
         if (precision == 0) {
             return intResult.toString();
         }
+
         if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO)) {
             StringBuilder sb = new StringBuilder();
             addZerosToFractionPart(sb, precision);
@@ -62,6 +63,7 @@ public abstract class Converter10ToP {
             builder.append('0');
         }
     }
+
 
     private static StringBuilder convertBigInteger(BigInteger value, int base) {
         if (value.equals(BigInteger.ZERO)) {
