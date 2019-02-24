@@ -46,7 +46,7 @@ class Converter10ToPTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"-1", "101"})
+    @CsvSource({"-1", "21"})
     void testIncorrectPrecision(int precision) {
         assertThrows(IllegalArgumentException.class, () -> ConverterPToP.convert10ToP("10", 10, precision));
     }

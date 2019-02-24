@@ -6,7 +6,7 @@ import java.math.BigInteger;
 public class ConverterPToP {
     private static final int MAXBASE = 16;
     private static final int MINBASE = 2;
-    private static final int MAXPRECISION = 100;
+    private static final int MAXPRECISION = 20;
 
     private ConverterPToP() {
     }
@@ -19,7 +19,7 @@ public class ConverterPToP {
         BigInteger number = value.toBigInteger();
         StringBuilder intResult = convertBigInteger10ToP(number, base);
 
-        if (precision == 0) {
+        if (precision == 0 || !valueString.contains(".")) {
             return intResult.toString();
         }
 
@@ -96,27 +96,29 @@ public class ConverterPToP {
                 fraction = "";
             }
         }
-        if (precision > 0) {
-            StringBuilder sb = addZerosToFractionPart(new StringBuilder(fraction), precision);
-            if (value.charAt(0) == '-') {
-                return "-" + number.toString() + "." + sb.substring(0, precision);
-            }
-            return number.toString() + "." + sb.substring(0, precision);
-        }
-        if (number.equals(BigInteger.ZERO) || value.charAt(0) != '-') {
+        if (stringArray.length == 1 || precision == 0) {
             return number.toString();
         }
-        return "-" + number.toString();
+
+        StringBuilder sb = addZerosToFractionPart(new StringBuilder(fraction), precision);
+        if (value.charAt(0) == '-' && number.equals(BigInteger.ZERO)) {
+            return "-" + number.toString() + "." + sb.substring(0, precision);
+        }
+        return number.toString() + "." + sb.substring(0, precision);
     }
 
     private static BigInteger convertBigIntegerPTo10(String value, int base) {
-        if (value.startsWith("-")) value = value.substring(1);
+        boolean negative = value.startsWith("-");
+        if (negative) {
+            value = value.substring(1);
+        }
         BigInteger multiplier = new BigInteger("1");
         BigInteger result = new BigInteger("0");
         for (int i = value.length() - 1; i >= 0; i--) {
             result = result.add(multiplier.multiply(BigInteger.valueOf(Digits.getDigitFromChar(value.charAt(i)))));
             multiplier = multiplier.multiply(BigInteger.valueOf(base));
         }
+        if (negative) result = result.negate();
         return result;
     }
 

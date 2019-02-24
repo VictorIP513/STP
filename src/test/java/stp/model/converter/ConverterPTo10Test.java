@@ -29,7 +29,7 @@ class ConverterPTo10Test {
 
     @ParameterizedTest
     @CsvSource({"-AB.77, 12, 3, -131.631", "-0.05, 15, 6, -0.022222", "-11.ABC, 16, 6, -17.670898",
-            "-0.cbd, 16, 6, -0.796142", "-0.0, 16, 6, 0.000000"})
+            "-0.cbd, 16, 6, -0.796142", "-0.0, 16, 6, 0"})
     void testConvertNegativeDoubleValue(String value, int outputBase, int precision, String actualResult) {
         assertEquals(actualResult, ConverterPToP.convertPTo10(value, outputBase, precision));
     }
@@ -53,7 +53,7 @@ class ConverterPTo10Test {
     }
 
     @ParameterizedTest
-    @CsvSource({"-1", "101"})
+    @CsvSource({"-1", "21"})
     void testIncorrectPrecision(int precision) {
         assertThrows(IllegalArgumentException.class, () -> ConverterPToP.convertPTo10("10", 10, precision));
     }
