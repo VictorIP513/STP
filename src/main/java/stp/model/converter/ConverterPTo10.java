@@ -2,35 +2,14 @@ package stp.model.converter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ConverterPTo10 {
-    private static final Map<Character, Integer> DIGITS;
+
     private static final int MAXBASE = 16;
     private static final int MINBASE = 2;
     private static final int MAXPRECISION = 100;
-
-    static {
-        DIGITS = new HashMap<>();
-        DIGITS.put('0', 0);
-        DIGITS.put('1', 1);
-        DIGITS.put('2', 2);
-        DIGITS.put('3', 3);
-        DIGITS.put('4', 4);
-        DIGITS.put('5', 5);
-        DIGITS.put('6', 6);
-        DIGITS.put('7', 7);
-        DIGITS.put('8', 8);
-        DIGITS.put('9', 9);
-        DIGITS.put('A', 10);
-        DIGITS.put('B', 11);
-        DIGITS.put('C', 12);
-        DIGITS.put('D', 13);
-        DIGITS.put('E', 14);
-        DIGITS.put('F', 15);
-    }
 
     public static String convert(String value, int base, int precision) throws IllegalArgumentException {
         if (base < MINBASE || base > MAXBASE) {
@@ -43,9 +22,15 @@ public abstract class ConverterPTo10 {
         String[] stringArray = value.split("\\.");
         BigInteger number = convertBigInteger(stringArray[0], base);
         String fraction = "";
-        if (stringArray.length > 1){
-            fraction = convertBigInteger(stringArray[1], base).toString();
-            fraction = zerosAfterComma(value) + fraction;
+
+        if (stringArray.length > 1) {
+            fraction = convertFraction(stringArray[1], base).toString();
+            String[] tmp = fraction.split("\\.");
+            if (tmp.length > 1) {
+                fraction = tmp[1];
+            } else {
+                fraction = "";
+            }
         }
         if (precision > 0) {
             StringBuilder sb = addZerosToFractionPart(new StringBuilder(fraction), precision);
@@ -59,33 +44,20 @@ public abstract class ConverterPTo10 {
         BigInteger multiplier = new BigInteger("1");
         BigInteger result = new BigInteger("0");
         for (int i = value.length() - 1; i >= 0; i--) {
-            result = result.add(multiplier.multiply(BigInteger.valueOf(DIGITS.get(value.charAt(i)))));
+            result = result.add(multiplier.multiply(BigInteger.valueOf(Digits.getDigitFromChar(value.charAt(i)))));
             multiplier = multiplier.multiply(BigInteger.valueOf(base));
         }
         return result;
     }
 
-    private static String convertFraction(String value, int base, int precision){
-        BigDecimal fraction = new BigDecimal("0." + value);
-        BigDecimal multiplier = new BigDecimal(1.0/base);
+    private static BigDecimal convertFraction(String value, int base) {
+        BigDecimal multiplier = new BigDecimal(1.0 / base);
         BigDecimal result = new BigDecimal(0);
-        for (char digit : value.toCharArray()){
-            result = result.add(multiplier.multiply(BigDecimal.valueOf(DIGITS.get(digit))));
-            //multiplier.divide()
+        for (char digit : value.toCharArray()) {
+            result = result.add(multiplier.multiply(BigDecimal.valueOf(Digits.getDigitFromChar(digit))));
+            multiplier = multiplier.multiply(BigDecimal.valueOf(1.0 / base));
         }
-        return null;
-    }
-
-    private static String zerosAfterComma(String value) {
-        value = value.split("\\.")[1];
-        StringBuilder zeros = new StringBuilder();
-        for (char ch : value.toCharArray()) {
-            if (ch != '0') {
-                break;
-            }
-            zeros.append("0");
-        }
-        return zeros.toString();
+        return result;
     }
 
     private static StringBuilder addZerosToFractionPart(StringBuilder builder, int precision) {
@@ -95,9 +67,9 @@ public abstract class ConverterPTo10 {
         return builder;
     }
 
-    private static String cutTrailingZeros(String value){
+    private static String cutTrailingZeros(String value) {
         StringBuilder sb = new StringBuilder(value);
-        while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0'){
+        while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0') {
             sb.deleteCharAt(sb.length() - 1);
         }
         //cut comma

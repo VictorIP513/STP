@@ -2,35 +2,12 @@ package stp.model.converter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Converter10ToP {
 
-    private static final Map<Integer, Character> DIGITS;
     private static final int MAXBASE = 16;
     private static final int MINBASE = 2;
     private static final int MAXPRECISION = 100;
-
-    static {
-        DIGITS = new HashMap<>();
-        DIGITS.put(0, '0');
-        DIGITS.put(1, '1');
-        DIGITS.put(2, '2');
-        DIGITS.put(3, '3');
-        DIGITS.put(4, '4');
-        DIGITS.put(5, '5');
-        DIGITS.put(6, '6');
-        DIGITS.put(7, '7');
-        DIGITS.put(8, '8');
-        DIGITS.put(9, '9');
-        DIGITS.put(10, 'A');
-        DIGITS.put(11, 'B');
-        DIGITS.put(12, 'C');
-        DIGITS.put(13, 'D');
-        DIGITS.put(14, 'E');
-        DIGITS.put(15, 'F');
-    }
 
     public static String convert(String valueString, int base, int precision) throws IllegalArgumentException {
         if (base < MINBASE || base > MAXBASE) {
@@ -47,7 +24,8 @@ public abstract class Converter10ToP {
         if (precision == 0) {
             return intResult.toString();
         }
-        if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO)){
+
+        if (value.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO)) {
             StringBuilder sb = new StringBuilder();
             addZerosToFractionPart(sb, precision);
             return intResult.toString() + "." + sb.toString();
@@ -86,14 +64,15 @@ public abstract class Converter10ToP {
         }
     }
 
-    private static StringBuilder convertBigInteger(BigInteger value, int base){
-        if (value.equals(BigInteger.ZERO)){
+
+    private static StringBuilder convertBigInteger(BigInteger value, int base) {
+        if (value.equals(BigInteger.ZERO)) {
             return new StringBuilder("0");
         }
         StringBuilder result = new StringBuilder();
         boolean negative = (value.compareTo(BigInteger.ZERO) < 0);
         while (!value.equals(BigInteger.ZERO)) {
-            result.append(DIGITS.get(Math.abs(value.remainder(BigInteger.valueOf(base)).intValue())));
+            result.append(Digits.getDigitFromInt(Math.abs(value.remainder(BigInteger.valueOf(base)).intValue())));
             value = value.divide(BigInteger.valueOf(base));
         }
         if (negative) {

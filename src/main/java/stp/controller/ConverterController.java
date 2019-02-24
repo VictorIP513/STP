@@ -1,5 +1,6 @@
 package stp.controller;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import stp.model.ConverterModel;
 
 public class ConverterController {
@@ -44,8 +46,14 @@ public class ConverterController {
 
     private ConverterModel converterModel;
 
-    public ConverterController() {
-        converterModel = new ConverterModel();
+    private Stage historyWindow;
+
+    public void setHistoryWindow(Stage historyWindow) {
+        this.historyWindow = historyWindow;
+    }
+
+    public void setConverterModel(ConverterModel converterModel) {
+        this.converterModel = converterModel;
     }
 
     @FXML
@@ -80,12 +88,26 @@ public class ConverterController {
     }
 
     @FXML
-    public void buttonBackSpaceClicked() {
+    private void buttonBackSpaceClicked() {
         String textInInputTextField = textFieldInputValue.getText();
         if (!textInInputTextField.isEmpty()) {
             textFieldInputValue.setText(textInInputTextField.substring(0, textInInputTextField.length() - 1));
             textFieldIOutputValue.clear();
         }
+    }
+
+    @FXML
+    private void menuExitClick() {
+        Platform.exit();
+    }
+
+    @FXML
+    private void menuHistoryClick() {
+        historyWindow.show();
+    }
+
+    @FXML
+    private void menuHelpClick() {
     }
 
     private void configureSpinners() {

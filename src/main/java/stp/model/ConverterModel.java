@@ -36,7 +36,6 @@ public class ConverterModel {
 
     public String convertValue(String value, int inputBase, int outputBase, int precision) {
         String convertedTo10Base = ConverterPTo10.convert(value, inputBase, precision);
-        System.out.println(convertedTo10Base);
         return Converter10ToP.convert(convertedTo10Base, outputBase, precision);
     }
 
