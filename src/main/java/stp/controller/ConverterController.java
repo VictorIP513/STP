@@ -63,7 +63,7 @@ public class ConverterController {
 
     @FXML
     private void buttonExecuteClicked() {
-        String value = textFieldInputValue.getText().toUpperCase();
+        String value = textFieldInputValue.getText();
         int inputBase = spinnerInputBase.getValue();
         int outputBase = spinnerOutputBase.getValue();
         int precision = spinnerPrecision.getValue();
@@ -111,6 +111,7 @@ public class ConverterController {
         spinnerInputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderInputBase.setValue(newValue);
             updateButtons();
+            updateInputTextField();
         });
         spinnerOutputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderOutputBase.setValue(newValue);
@@ -125,6 +126,7 @@ public class ConverterController {
         sliderInputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
             spinnerInputBase.getValueFactory().setValue(newValue.intValue());
             updateButtons();
+            updateInputTextField();
         });
         sliderOutputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
             spinnerOutputBase.getValueFactory().setValue(newValue.intValue());
@@ -139,6 +141,7 @@ public class ConverterController {
 
     private void configureInputTextField() {
         textFieldInputValue.textProperty().addListener((observable, oldValue, newValue) -> {
+            textFieldInputValue.setText(newValue.toUpperCase());
             textFieldIOutputValue.clear();
             String textFieldValidationErrorStyleName = "form_validation_error";
             int currentBase = spinnerInputBase.getValue();
@@ -176,6 +179,12 @@ public class ConverterController {
                 button.setDisable(buttonDigitText >= base);
             }
         }
+    }
+
+    private void updateInputTextField() {
+        String inputText = textFieldInputValue.getText();
+        textFieldInputValue.setText(textFieldInputValue.getText() + " ");
+        textFieldInputValue.setText(inputText);
     }
 
     private <T extends Node> void disableContextMenu(T element) {
