@@ -89,7 +89,6 @@ public class ConverterController {
         String textInInputTextField = textFieldInputValue.getText();
         if (!textInInputTextField.isEmpty()) {
             textFieldInputValue.setText(textInInputTextField.substring(0, textInInputTextField.length() - 1));
-            textFieldIOutputValue.clear();
         }
     }
 
@@ -142,7 +141,6 @@ public class ConverterController {
     private void configureInputTextField() {
         textFieldInputValue.textProperty().addListener((observable, oldValue, newValue) -> {
             textFieldInputValue.setText(newValue.toUpperCase());
-            textFieldIOutputValue.clear();
             String textFieldValidationErrorStyleName = "form_validation_error";
             int currentBase = spinnerInputBase.getValue();
 
