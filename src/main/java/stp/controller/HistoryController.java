@@ -14,10 +14,6 @@ public class HistoryController {
 
     @FXML
     public void initialize() {
-
-    }
-
-    public void setHistoryModel(HistoryModel historyModel) {
-        this.historyModel = historyModel;
+        historyModel = new HistoryModel();
     }
 }

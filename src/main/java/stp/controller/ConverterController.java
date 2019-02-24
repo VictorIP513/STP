@@ -52,12 +52,9 @@ public class ConverterController {
         this.historyWindow = historyWindow;
     }
 
-    public void setConverterModel(ConverterModel converterModel) {
-        this.converterModel = converterModel;
-    }
-
     @FXML
     public void initialize() {
+        converterModel = new ConverterModel();
         configureSpinners();
         configureSliders();
         configureTextFields();
