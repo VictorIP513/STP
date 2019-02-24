@@ -1,6 +1,8 @@
 package stp.model.converter;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,16 +55,25 @@ public abstract class ConverterPTo10 {
     }
 
     private static BigInteger convertBigInteger(String value, int base) {
-        boolean negative = value.startsWith("-");
-        if (negative) value = value.substring(1, value.length() - 1);
+        if (value.startsWith("-")) value = value.substring(1);
         BigInteger multiplier = new BigInteger("1");
         BigInteger result = new BigInteger("0");
         for (int i = value.length() - 1; i >= 0; i--) {
             result = result.add(multiplier.multiply(BigInteger.valueOf(DIGITS.get(value.charAt(i)))));
             multiplier = multiplier.multiply(BigInteger.valueOf(base));
         }
-        if (negative) result = result.negate();
         return result;
+    }
+
+    private static String convertFraction(String value, int base, int precision){
+        BigDecimal fraction = new BigDecimal("0." + value);
+        BigDecimal multiplier = new BigDecimal(1.0/base);
+        BigDecimal result = new BigDecimal(0);
+        for (char digit : value.toCharArray()){
+            result = result.add(multiplier.multiply(BigDecimal.valueOf(DIGITS.get(digit))));
+            //multiplier.divide()
+        }
+        return null;
     }
 
     private static String zerosAfterComma(String value) {
@@ -89,6 +100,7 @@ public abstract class ConverterPTo10 {
         while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0'){
             sb.deleteCharAt(sb.length() - 1);
         }
+        //cut comma
         return sb.toString();
     }
 }
