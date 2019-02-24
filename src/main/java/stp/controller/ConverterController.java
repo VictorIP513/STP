@@ -63,7 +63,7 @@ public class ConverterController {
 
     @FXML
     private void buttonExecuteClicked() {
-        String value = textFieldInputValue.getText();
+        String value = textFieldInputValue.getText().toUpperCase();
         int inputBase = spinnerInputBase.getValue();
         int outputBase = spinnerOutputBase.getValue();
         int precision = spinnerPrecision.getValue();
@@ -111,12 +111,10 @@ public class ConverterController {
         spinnerInputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderInputBase.setValue(newValue);
             updateButtons();
-            textFieldInputValue.clear();
         });
         spinnerOutputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderOutputBase.setValue(newValue);
             updateButtons();
-            textFieldInputValue.clear();
         });
 
         disableContextMenu(spinnerInputBase);
@@ -127,12 +125,10 @@ public class ConverterController {
         sliderInputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
             spinnerInputBase.getValueFactory().setValue(newValue.intValue());
             updateButtons();
-            textFieldInputValue.clear();
         });
         sliderOutputBase.valueProperty().addListener((observable, oldValue, newValue) -> {
             spinnerOutputBase.getValueFactory().setValue(newValue.intValue());
             updateButtons();
-            textFieldInputValue.clear();
         });
     }
 

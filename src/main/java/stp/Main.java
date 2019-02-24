@@ -46,7 +46,7 @@ public class Main extends Application {
         converterWindow.setScene(new Scene(fxmlView));
         converterController = loader.getController();
 
-        converterWindow.setTitle("Конвертер");
+        converterWindow.setTitle("Converter");
         converterWindow.setResizable(false);
     }
 
@@ -56,7 +56,7 @@ public class Main extends Application {
         Parent fxmlView = loader.load();
         historyWindow.setScene(new Scene(fxmlView));
 
-        historyWindow.setTitle("История");
+        historyWindow.setTitle("History");
         historyWindow.setResizable(false);
         historyWindow.initModality(Modality.APPLICATION_MODAL);
     }

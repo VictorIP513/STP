@@ -1,6 +1,9 @@
 package stp.model.converter;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class ConverterPTo10 {
 
@@ -21,8 +24,13 @@ public abstract class ConverterPTo10 {
         String fraction = "";
 
         if (stringArray.length > 1) {
-            fraction = convertBigInteger(stringArray[1], base).toString();
-            fraction = zerosAfterComma(value) + fraction;
+            fraction = convertFraction(stringArray[1], base).toString();
+            String[] tmp = fraction.split("\\.");
+            if (tmp.length > 1) {
+                fraction = tmp[1];
+            } else {
+                fraction = "";
+            }
         }
         if (precision > 0) {
             StringBuilder sb = addZerosToFractionPart(new StringBuilder(fraction), precision);
@@ -32,28 +40,24 @@ public abstract class ConverterPTo10 {
     }
 
     private static BigInteger convertBigInteger(String value, int base) {
-        boolean negative = value.startsWith("-");
-        if (negative) value = value.substring(1, value.length() - 1);
+        if (value.startsWith("-")) value = value.substring(1);
         BigInteger multiplier = new BigInteger("1");
         BigInteger result = new BigInteger("0");
         for (int i = value.length() - 1; i >= 0; i--) {
             result = result.add(multiplier.multiply(BigInteger.valueOf(Digits.getDigitFromChar(value.charAt(i)))));
             multiplier = multiplier.multiply(BigInteger.valueOf(base));
         }
-        if (negative) result = result.negate();
         return result;
     }
 
-    private static String zerosAfterComma(String value) {
-        value = value.split("\\.")[1];
-        StringBuilder zeros = new StringBuilder();
-        for (char ch : value.toCharArray()) {
-            if (ch != '0') {
-                break;
-            }
-            zeros.append("0");
+    private static BigDecimal convertFraction(String value, int base) {
+        BigDecimal multiplier = new BigDecimal(1.0 / base);
+        BigDecimal result = new BigDecimal(0);
+        for (char digit : value.toCharArray()) {
+            result = result.add(multiplier.multiply(BigDecimal.valueOf(Digits.getDigitFromChar(digit))));
+            multiplier = multiplier.multiply(BigDecimal.valueOf(1.0 / base));
         }
-        return zeros.toString();
+        return result;
     }
 
     private static StringBuilder addZerosToFractionPart(StringBuilder builder, int precision) {
@@ -68,6 +72,7 @@ public abstract class ConverterPTo10 {
         while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0') {
             sb.deleteCharAt(sb.length() - 1);
         }
+        //cut comma
         return sb.toString();
     }
 }
