@@ -28,6 +28,12 @@ class ConverterPTo10Test {
     }
 
     @ParameterizedTest
+    @CsvSource({"-110.11, 2, 2, -6.75", "-DEAD.DEAD, 16, 4, -57005.8698", "-105.576, 8, 8, -69.74609375"})
+    void testNegativeValues(String value, int outputBase, int precision, String actualResult) {
+        assertEquals(ConverterPTo10.convert(value, outputBase, precision), actualResult);
+    }
+
+    @ParameterizedTest
     @CsvSource({"-5", "1", "20"})
     void testIncorrectBase(int base) {
         assertThrows(IllegalArgumentException.class, () -> ConverterPTo10.convert("10", base, 10));

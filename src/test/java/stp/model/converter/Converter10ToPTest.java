@@ -6,7 +6,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
 class Converter10ToPTest {
 
     @ParameterizedTest
@@ -18,6 +17,12 @@ class Converter10ToPTest {
     @ParameterizedTest
     @CsvSource({"161.5, 15, 3, AB.777", "5.05, 15, 6, 5.0B3B3B", "256.001, 2, 0, 100000000"})
     void testConvertDoubleValue(String value, int outputBase, int precision, String actualResult) {
+        assertEquals(Converter10ToP.convert(value, outputBase, precision), actualResult);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"-5.2, 8, 4, -5.1463", "-22.15, 14, 4, -18.2158", "-333.333, 16, 4, -14D.553F"})
+    void testNegativeValues(String value, int outputBase, int precision, String actualResult) {
         assertEquals(Converter10ToP.convert(value, outputBase, precision), actualResult);
     }
 
