@@ -23,7 +23,7 @@ public class History {
         return historyList;
     }
 
-    public HistoryItem getHistoryItem(int index) {
+    public HistoryItem getHistoryItem(int index) throws IllegalArgumentException {
         if (index >= historyList.size()) {
             throw new IllegalArgumentException("index out of bounds");
         }

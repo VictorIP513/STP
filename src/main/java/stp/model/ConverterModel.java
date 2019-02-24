@@ -1,7 +1,6 @@
 package stp.model;
 
-import stp.model.converter.Converter10ToP;
-import stp.model.converter.ConverterPTo10;
+import stp.model.converter.ConverterPToP;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,8 +34,8 @@ public class ConverterModel {
     }
 
     public String convertValue(String value, int inputBase, int outputBase, int precision) {
-        String convertedTo10Base = ConverterPTo10.convert(value, inputBase, precision);
-        return Converter10ToP.convert(convertedTo10Base, outputBase, precision);
+        String convertedTo10Base = ConverterPToP.convertPTo10(value, inputBase, precision);
+        return ConverterPToP.convert10ToP(convertedTo10Base, outputBase, precision);
     }
 
     public int getValueFromHexString(String str) {
