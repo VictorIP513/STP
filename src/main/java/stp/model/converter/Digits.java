@@ -54,7 +54,7 @@ class Digits {
 
     static char getDigitFromInt(int digit) throws IllegalArgumentException {
         if (!DIGITSFROMINT.containsKey(digit)) {
-            throw new IllegalArgumentException("Digit must be from 0 to 9");
+            throw new IllegalArgumentException("Digit must be from 0 to 15");
         }
         return DIGITSFROMINT.get(digit);
     }

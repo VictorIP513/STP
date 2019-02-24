@@ -10,12 +10,16 @@ public abstract class Converter10ToP {
     private static final int MAXPRECISION = 100;
 
     public static String convert(String valueString, int base, int precision) throws IllegalArgumentException {
+        if (valueString.isEmpty()) {
+            throw new IllegalArgumentException("Value string can not be empty");
+        }
         if (base < MINBASE || base > MAXBASE) {
             throw new IllegalArgumentException("Base must be from " + MINBASE + " to " + MAXBASE);
         }
         if (precision < 0 || precision > MAXPRECISION) {
             throw new IllegalArgumentException("Precision must be from 0 to " + MAXPRECISION);
         }
+        valueString = valueString.toUpperCase();
         BigDecimal value = new BigDecimal(valueString);
         value = value.stripTrailingZeros();
         BigInteger number = value.toBigInteger();
@@ -31,11 +35,8 @@ public abstract class Converter10ToP {
             return intResult.toString() + "." + sb.toString();
         }
 
-        BigInteger fraction = new BigInteger(value.toString().split("\\.")[1]);
-        StringBuilder fractionResult = convertBigInteger(fraction, base);
-        fractionResult.reverse();
-        fractionResult.append(zerosAfterComma(value.toString()));
-        fractionResult.reverse();
+        BigDecimal fraction = value.subtract(new BigDecimal(number));
+        StringBuilder fractionResult = convertFraction(fraction, base, precision);
         intResult.append(".");
         if (fractionResult.length() > precision) {
             fractionResult.delete(precision, fractionResult.length());
@@ -43,6 +44,9 @@ public abstract class Converter10ToP {
             addZerosToFractionPart(fractionResult, precision);
         }
         intResult.append(fractionResult);
+        if (number.equals(BigInteger.ZERO) && value.compareTo(BigDecimal.ZERO) < 0){
+            intResult.insert(0, '-');
+        }
         return intResult.toString();
     }
 
@@ -69,16 +73,33 @@ public abstract class Converter10ToP {
         if (value.equals(BigInteger.ZERO)) {
             return new StringBuilder("0");
         }
+        boolean negative = value.compareTo(BigInteger.ZERO) < 0;
+        value = value.abs();
         StringBuilder result = new StringBuilder();
-        boolean negative = (value.compareTo(BigInteger.ZERO) < 0);
         while (!value.equals(BigInteger.ZERO)) {
-            result.append(Digits.getDigitFromInt(Math.abs(value.remainder(BigInteger.valueOf(base)).intValue())));
+            result.append(Digits.getDigitFromInt(value.remainder(BigInteger.valueOf(base)).intValue()));
             value = value.divide(BigInteger.valueOf(base));
         }
         if (negative) {
             result.append('-');
         }
         result.reverse();
+        return result;
+    }
+
+    private static StringBuilder convertFraction(BigDecimal value, int base, int precision) {
+        BigDecimal multiplier = (BigDecimal.ONE.divide(BigDecimal.valueOf(base),
+                (precision + 1) * 2, BigDecimal.ROUND_FLOOR));
+        value = value.abs();
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i <= precision; i++) {
+            int digit = value.divideToIntegralValue(multiplier).intValue();
+            if (digit > 0) {
+                value = value.subtract(multiplier.multiply(BigDecimal.valueOf(digit)));
+            }
+            result.append(Digits.getDigitFromInt(digit));
+            multiplier = multiplier.divide(BigDecimal.valueOf(base), (precision + 1) * 2, BigDecimal.ROUND_FLOOR);
+        }
         return result;
     }
 }

@@ -12,19 +12,22 @@ public abstract class ConverterPTo10 {
     private static final int MAXPRECISION = 100;
 
     public static String convert(String value, int base, int precision) throws IllegalArgumentException {
+        if (value.isEmpty()){
+            throw new IllegalArgumentException("Value string can not be empty");
+        }
         if (base < MINBASE || base > MAXBASE) {
             throw new IllegalArgumentException("Base must be from " + MINBASE + " to " + MAXBASE);
         }
         if (precision < 0 || precision > MAXPRECISION) {
             throw new IllegalArgumentException("Precision must be from 0 to " + MAXPRECISION);
         }
-        value = cutTrailingZeros(value);
+        value = cutTrailingZeros(value).toUpperCase();
         String[] stringArray = value.split("\\.");
         BigInteger number = convertBigInteger(stringArray[0], base);
         String fraction = "";
 
         if (stringArray.length > 1) {
-            fraction = convertFraction(stringArray[1], base).toString();
+            fraction = convertFraction(stringArray[1], base, precision).toString();
             String[] tmp = fraction.split("\\.");
             if (tmp.length > 1) {
                 fraction = tmp[1];
@@ -34,9 +37,15 @@ public abstract class ConverterPTo10 {
         }
         if (precision > 0) {
             StringBuilder sb = addZerosToFractionPart(new StringBuilder(fraction), precision);
+            if (value.charAt(0) == '-'){
+                return "-" + number.toString() + "." + sb.substring(0, precision);
+            }
             return number.toString() + "." + sb.substring(0, precision);
         }
-        return number.toString();
+        if (number.equals(BigInteger.ZERO) || value.charAt(0) != '-') {
+            return number.toString();
+        }
+        return "-" + number.toString();
     }
 
     private static BigInteger convertBigInteger(String value, int base) {
@@ -50,8 +59,8 @@ public abstract class ConverterPTo10 {
         return result;
     }
 
-    private static BigDecimal convertFraction(String value, int base) {
-        BigDecimal multiplier = new BigDecimal(1.0 / base);
+    private static BigDecimal convertFraction(String value, int base, int precision) {
+        BigDecimal multiplier = (BigDecimal.ONE.divide(BigDecimal.valueOf(base), (precision + 1) * 2, BigDecimal.ROUND_FLOOR));
         BigDecimal result = new BigDecimal(0);
         for (char digit : value.toCharArray()) {
             result = result.add(multiplier.multiply(BigDecimal.valueOf(Digits.getDigitFromChar(digit))));
@@ -68,11 +77,16 @@ public abstract class ConverterPTo10 {
     }
 
     private static String cutTrailingZeros(String value) {
+        if (!value.contains(".")){
+            return value;
+        }
         StringBuilder sb = new StringBuilder(value);
         while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0') {
             sb.deleteCharAt(sb.length() - 1);
         }
-        //cut comma
+        if (sb.charAt(sb.length() - 1) == '.'){
+            sb.deleteCharAt(sb.length() - 1);
+        }
         return sb.toString();
     }
 }
