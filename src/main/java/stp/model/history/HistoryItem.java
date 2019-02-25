@@ -1,6 +1,7 @@
 package stp.model.history;
 
 public class HistoryItem {
+
     private String fromValue;
     private String toValue;
     private int fromBase;

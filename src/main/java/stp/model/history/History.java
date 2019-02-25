@@ -1,7 +1,6 @@
 package stp.model.history;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class History {
     private static final int MAX_HISTORY_SIZE = 20;
@@ -12,7 +11,7 @@ public class History {
         historyList = new ArrayList<>();
     }
 
-    public History getHistory() {
+    public static History getInstance() {
         if (history == null) {
             history = new History();
         }
@@ -23,7 +22,7 @@ public class History {
         return historyList;
     }
 
-    public HistoryItem getHistoryItem(int index) throws IllegalArgumentException {
+    public HistoryItem getHistoryItem(int index) {
         if (index >= historyList.size()) {
             throw new IllegalArgumentException("index out of bounds");
         }
@@ -35,6 +34,9 @@ public class History {
     }
 
     public void addItem(HistoryItem item) {
+        if (historyList.size() >= MAX_HISTORY_SIZE) {
+            historyList.remove(0);
+        }
         historyList.add(item);
     }
 

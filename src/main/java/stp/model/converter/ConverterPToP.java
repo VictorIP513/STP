@@ -4,14 +4,16 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class ConverterPToP {
-    private static final int MAXBASE = 16;
-    private static final int MINBASE = 2;
-    private static final int MAXPRECISION = 20;
+
+    private static final int MAX_BASE = 16;
+    private static final int MIN_BASE = 2;
+    private static final int MAX_PRECISION = 20;
 
     private ConverterPToP() {
+
     }
 
-    public static String convert10ToP(String valueString, int base, int precision) throws IllegalArgumentException {
+    public static String convert10ToP(String valueString, int base, int precision) {
         checkArguments(valueString, base, precision);
         valueString = valueString.toUpperCase();
         BigDecimal value = new BigDecimal(valueString);
@@ -79,8 +81,7 @@ public class ConverterPToP {
         return result;
     }
 
-
-    public static String convertPTo10(String value, int base, int precision) throws IllegalArgumentException {
+    public static String convertPTo10(String value, int base, int precision) {
         checkArguments(value, base, precision);
         value = cutTrailingZeros(value).toUpperCase();
         String[] stringArray = value.split("\\.");
@@ -112,8 +113,8 @@ public class ConverterPToP {
         if (negative) {
             value = value.substring(1);
         }
-        BigInteger multiplier = new BigInteger("1");
-        BigInteger result = new BigInteger("0");
+        BigInteger multiplier = BigInteger.ONE;
+        BigInteger result = BigInteger.ZERO;
         for (int i = value.length() - 1; i >= 0; i--) {
             result = result.add(multiplier.multiply(BigInteger.valueOf(Digits.getDigitFromChar(value.charAt(i)))));
             multiplier = multiplier.multiply(BigInteger.valueOf(base));
@@ -146,15 +147,15 @@ public class ConverterPToP {
         return sb.toString();
     }
 
-    private static void checkArguments(String valueString, int base, int precision) throws IllegalArgumentException {
+    private static void checkArguments(String valueString, int base, int precision) {
         if (valueString.isEmpty()) {
             throw new IllegalArgumentException("Value string can not be empty");
         }
-        if (base < MINBASE || base > MAXBASE) {
-            throw new IllegalArgumentException("Base must be from " + MINBASE + " to " + MAXBASE);
+        if (base < MIN_BASE || base > MAX_BASE) {
+            throw new IllegalArgumentException("Base must be from " + MIN_BASE + " to " + MAX_BASE);
         }
-        if (precision < 0 || precision > MAXPRECISION) {
-            throw new IllegalArgumentException("Precision must be from 0 to " + MAXPRECISION);
+        if (precision < 0 || precision > MAX_PRECISION) {
+            throw new IllegalArgumentException("Precision must be from 0 to " + MAX_PRECISION);
         }
     }
 
@@ -165,4 +166,3 @@ public class ConverterPToP {
         return builder;
     }
 }
-
