@@ -2,31 +2,31 @@ package stp.model.history;
 
 public class HistoryItem {
 
-    private String fromValue;
-    private String toValue;
-    private int fromBase;
-    private int toBase;
+    private String inputValue;
+    private String outputValue;
+    private int inputBase;
+    private int outputBase;
 
-    public HistoryItem(String fromValue, String toValue, int fromBase, int toBase) {
-        this.fromValue = fromValue;
-        this.toValue = toValue;
-        this.fromBase = fromBase;
-        this.toBase = toBase;
+    public HistoryItem(String inputValue, String outputValue, int inputBase, int outputBase) {
+        this.inputValue = inputValue;
+        this.outputValue = outputValue;
+        this.inputBase = inputBase;
+        this.outputBase = outputBase;
     }
 
-    public String getFromValue() {
-        return fromValue;
+    public String getInputValue() {
+        return inputValue;
     }
 
-    public String getToValue() {
-        return toValue;
+    public String getOutputValue() {
+        return outputValue;
     }
 
-    public int getFromBase() {
-        return fromBase;
+    public int getInputBase() {
+        return inputBase;
     }
 
-    public int getToBase() {
-        return toBase;
+    public int getOutputBase() {
+        return outputBase;
     }
 }
