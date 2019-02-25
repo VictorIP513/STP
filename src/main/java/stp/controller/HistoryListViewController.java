@@ -26,10 +26,11 @@ public class HistoryListViewController {
     private VBox mainPanel;
 
     public void setHistoryItemToView(HistoryItem historyItem) {
-        labelInputValue.setText(historyItem.getFromValue());
-        labelOutputValue.setText(historyItem.getToValue());
-        labelInputBase.setText(String.valueOf(historyItem.getFromBase()));
-        labelOutputBase.setText(String.valueOf(historyItem.getToBase()));
+        labelInputValue.setText(historyItem.getInputValue());
+        labelOutputValue.setText(historyItem.getOutputValue());
+        labelInputBase.setText(String.valueOf(historyItem.getInputBase()));
+        labelOutputBase.setText(String.valueOf(historyItem.getOutputBase()));
+        labelPrecision.setText(String.valueOf(historyItem.getPrecision()));
     }
 
     public VBox getMainPanel() {
