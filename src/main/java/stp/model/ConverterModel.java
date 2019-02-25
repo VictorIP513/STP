@@ -1,6 +1,8 @@
 package stp.model;
 
 import stp.model.converter.ConverterPToP;
+import stp.model.history.History;
+import stp.model.history.HistoryItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +10,8 @@ import java.util.Map;
 public class ConverterModel {
 
     private static final Map<Integer, String> VALIDATION_REGEXPS;
+
+    private static final History HISTORY;
 
     static {
         VALIDATION_REGEXPS = new HashMap<>(15);
@@ -26,6 +30,8 @@ public class ConverterModel {
         VALIDATION_REGEXPS.put(14, "(-)?[0-9a-dA-D]+(\\.[0-9a-dA-D]+)?");
         VALIDATION_REGEXPS.put(15, "(-)?[0-9a-eA-E]+(\\.[0-9a-eA-E]+)?");
         VALIDATION_REGEXPS.put(16, "(-)?[0-9a-fA-F]+(\\.[0-9a-fA-F]+)?");
+
+        HISTORY = History.getInstance();
     }
 
     public boolean isCorrectInputValueFormValidation(String text, int base) {
@@ -44,5 +50,9 @@ public class ConverterModel {
         } catch (NumberFormatException ignored) {
             return -1;
         }
+    }
+
+    public void addToHistory(String inputValue, String outputValue, int inputBase, int outputBase, int precision) {
+        HISTORY.addItem(new HistoryItem(inputValue, outputValue, inputBase, outputBase, precision));
     }
 }

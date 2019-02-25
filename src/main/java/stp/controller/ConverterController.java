@@ -63,12 +63,14 @@ public class ConverterController {
 
     @FXML
     private void buttonExecuteClicked() {
-        String value = textFieldInputValue.getText();
+        String inputValue = textFieldInputValue.getText();
         int inputBase = spinnerInputBase.getValue();
         int outputBase = spinnerOutputBase.getValue();
         int precision = spinnerPrecision.getValue();
-        String result = converterModel.convertValue(value, inputBase, outputBase, precision);
-        textFieldIOutputValue.setText(result);
+        String outputValue = converterModel.convertValue(inputValue, inputBase, outputBase, precision);
+        textFieldIOutputValue.setText(outputValue);
+
+        converterModel.addToHistory(inputValue, outputValue, inputBase, outputBase, precision);
     }
 
     @FXML
@@ -104,6 +106,7 @@ public class ConverterController {
 
     @FXML
     private void menuHelpClick() {
+
     }
 
     private void configureSpinners() {

@@ -13,20 +13,20 @@ public class HistoryController {
     @FXML
     private ListView<HistoryItem> listView;
 
-    private ObservableList<HistoryItem> historyList;
-
     private HistoryModel historyModel;
+
+    public void updateHistory() {
+        ObservableList<HistoryItem> historyList = FXCollections.observableArrayList(historyModel.getHistory());
+        listView.setItems(historyList);
+    }
 
     @FXML
     public void initialize() {
         historyModel = new HistoryModel();
-        historyList = FXCollections.observableArrayList();
-
         setupListView();
     }
 
     private void setupListView() {
         listView.setCellFactory(cell -> new HistoryListViewCell());
-        listView.setItems(historyList);
     }
 }

@@ -124,7 +124,8 @@ public class ConverterPToP {
     }
 
     private static BigDecimal convertFractionPTo10(String value, int base, int precision) {
-        BigDecimal multiplier = (BigDecimal.ONE.divide(BigDecimal.valueOf(base), (precision + 1) * 2, BigDecimal.ROUND_FLOOR));
+        BigDecimal multiplier = (BigDecimal.ONE.divide(BigDecimal.valueOf(base),
+                (precision + 1) * 2, BigDecimal.ROUND_FLOOR));
         BigDecimal result = new BigDecimal(0);
         for (char digit : value.toCharArray()) {
             result = result.add(multiplier.multiply(BigDecimal.valueOf(Digits.getDigitFromChar(digit))));

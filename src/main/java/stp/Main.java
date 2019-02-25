@@ -6,9 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import stp.controller.ConverterController;
+import stp.controller.HistoryController;
 
 import java.io.IOException;
 
@@ -55,9 +57,11 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/history.fxml"));
         Parent fxmlView = loader.load();
         historyWindow.setScene(new Scene(fxmlView));
+        HistoryController historyController = loader.getController();
 
         historyWindow.setTitle("History");
         historyWindow.setResizable(false);
         historyWindow.initModality(Modality.APPLICATION_MODAL);
+        historyWindow.addEventHandler(WindowEvent.WINDOW_SHOWN, window -> historyController.updateHistory());
     }
 }

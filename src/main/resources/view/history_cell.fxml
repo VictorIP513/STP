@@ -56,7 +56,7 @@
         </Label>
     </HBox>
     <HBox alignment="CENTER_LEFT">
-        <Label text="Точность:">
+        <Label text="Кол-во знаков дробной части:">
             <font>
                 <Font size="14.0"/>
             </font>
