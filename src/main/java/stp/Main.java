@@ -20,6 +20,7 @@ public class Main extends Application {
 
     private Stage converterWindow;
     private Stage historyWindow;
+    private Stage helpWindow;
 
     private ConverterController converterController;
 
@@ -34,11 +35,13 @@ public class Main extends Application {
         try {
             setupConverterView();
             setupHistoryView();
+            setupHelpView();
         } catch (IOException e) {
             LOGGER.error("Error with opening resource file: {}", e.getMessage());
         }
 
         converterController.setHistoryWindow(historyWindow);
+        converterController.setHelpWindow(helpWindow);
         converterWindow.show();
     }
 
@@ -58,9 +61,18 @@ public class Main extends Application {
         Parent fxmlView = loader.load();
         historyWindow.setScene(new Scene(fxmlView));
         HistoryController historyController = loader.getController();
-
         historyWindow.setTitle("History");
+        historyWindow.setResizable(false);
         historyWindow.initModality(Modality.APPLICATION_MODAL);
         historyWindow.addEventHandler(WindowEvent.WINDOW_SHOWN, window -> historyController.updateHistory());
+    }
+
+    private void setupHelpView() throws IOException {
+        helpWindow = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/help.fxml"));
+        Parent fxmlView = loader.load();
+        helpWindow.setScene(new Scene(fxmlView));
+        helpWindow.setTitle("Help");
+        helpWindow.setResizable(false);
     }
 }

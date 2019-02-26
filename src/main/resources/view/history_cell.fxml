@@ -1,75 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.Shadow?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<VBox fx:id="mainPanel" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.172-ea"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="stp.controller.HistoryListViewController">
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="mainPanel" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stp.controller.HistoryListViewController">
     <HBox alignment="CENTER_LEFT">
-        <Label text="Исходное значение:">
+        <Label text="Initial value:">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
         <Label fx:id="labelInputValue">
             <HBox.margin>
-                <Insets left="5.0"/>
+                <Insets left="5.0" />
             </HBox.margin>
         </Label>
     </HBox>
     <HBox alignment="CENTER_LEFT">
-        <Label text="Система счисления исходного значения:">
+        <Label text="Numeral system of initial value:">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
         <Label fx:id="labelInputBase">
             <HBox.margin>
-                <Insets left="5.0"/>
+                <Insets left="5.0" />
             </HBox.margin>
         </Label>
     </HBox>
     <HBox alignment="CENTER_LEFT">
-        <Label text="Результат:">
+        <Label text="Result:">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
         <Label fx:id="labelOutputValue">
             <HBox.margin>
-                <Insets left="5.0"/>
+                <Insets left="5.0" />
             </HBox.margin>
         </Label>
     </HBox>
     <HBox alignment="CENTER_LEFT">
-        <Label text="Система счисления результата:">
+        <Label text="Numeral system of result value:">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
         <Label fx:id="labelOutputBase">
             <HBox.margin>
-                <Insets left="5.0"/>
+                <Insets left="5.0" />
             </HBox.margin>
         </Label>
     </HBox>
     <HBox alignment="CENTER_LEFT">
-        <Label text="Кол-во знаков дробной части:">
+        <Label text="Precision:">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
         <Label fx:id="labelPrecision">
             <HBox.margin>
-                <Insets left="5.0"/>
+                <Insets left="5.0" />
             </HBox.margin>
         </Label>
     </HBox>
     <Separator>
         <effect>
-            <Shadow/>
+            <Shadow />
         </effect>
     </Separator>
 </VBox>

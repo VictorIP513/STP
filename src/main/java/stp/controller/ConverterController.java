@@ -48,8 +48,14 @@ public class ConverterController {
 
     private Stage historyWindow;
 
+    private Stage helpWindow;
+
     public void setHistoryWindow(Stage historyWindow) {
         this.historyWindow = historyWindow;
+    }
+
+    public void setHelpWindow(Stage helpWindow) {
+        this.helpWindow = helpWindow;
     }
 
     @FXML
@@ -106,7 +112,7 @@ public class ConverterController {
 
     @FXML
     private void menuHelpClick() {
-
+        helpWindow.show();
     }
 
     private void configureSpinners() {
