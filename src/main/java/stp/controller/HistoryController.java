@@ -8,6 +8,7 @@ import stp.model.HistoryListViewCell;
 import stp.model.HistoryModel;
 import stp.model.history.HistoryItem;
 
+
 public class HistoryController {
 
     @FXML
@@ -23,10 +24,6 @@ public class HistoryController {
     @FXML
     public void initialize() {
         historyModel = new HistoryModel();
-        setupListView();
-    }
-
-    private void setupListView() {
         listView.setCellFactory(cell -> new HistoryListViewCell());
     }
 }

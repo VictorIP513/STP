@@ -3,8 +3,7 @@ package stp.model;
 import stp.model.history.History;
 import stp.model.history.HistoryItem;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Deque;
 
 public class HistoryModel {
 
@@ -14,9 +13,7 @@ public class HistoryModel {
         HISTORY = History.getInstance();
     }
 
-    public List<HistoryItem> getHistory() {
-        List<HistoryItem> history = HISTORY.getHistoryList();
-        Collections.reverse(history);
-        return history;
+    public Deque<HistoryItem> getHistory() {
+        return HISTORY.getHistoryList();
     }
 }

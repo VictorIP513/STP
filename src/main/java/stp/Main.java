@@ -60,7 +60,6 @@ public class Main extends Application {
         HistoryController historyController = loader.getController();
 
         historyWindow.setTitle("History");
-        historyWindow.setResizable(false);
         historyWindow.initModality(Modality.APPLICATION_MODAL);
         historyWindow.addEventHandler(WindowEvent.WINDOW_SHOWN, window -> historyController.updateHistory());
     }

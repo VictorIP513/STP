@@ -23,7 +23,6 @@ public class HistoryListViewCell extends ListCell<HistoryItem> {
         } catch (IOException e) {
             LOGGER.error("Error with opening resource file: {}", e.getMessage());
         }
-        historyListViewController = loader.getController();
     }
 
     @Override
@@ -32,6 +31,8 @@ public class HistoryListViewCell extends ListCell<HistoryItem> {
         if (!empty) {
             historyListViewController.setHistoryItemToView(item);
             setGraphic(historyListViewController.getMainPanel());
+        } else {
+            setGraphic(null);
         }
     }
 }

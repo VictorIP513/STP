@@ -35,4 +35,15 @@ public class HistoryItem {
     public int getPrecision() {
         return precision;
     }
+
+    @Override
+    public String toString() {
+        return "HistoryItem{" +
+                "inputValue='" + inputValue + '\'' +
+                ", outputValue='" + outputValue + '\'' +
+                ", inputBase=" + inputBase +
+                ", outputBase=" + outputBase +
+                ", precision=" + precision +
+                '}';
+    }
 }

@@ -1,16 +1,16 @@
 package stp.model.history;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class History {
 
     private static final int MAX_HISTORY_SIZE = 20;
     private static History history;
-    private List<HistoryItem> historyList;
+    private Deque<HistoryItem> historyList;
 
     private History() {
-        historyList = new ArrayList<>();
+        historyList = new LinkedList<>();
     }
 
     public static History getInstance() {
@@ -20,7 +20,7 @@ public class History {
         return history;
     }
 
-    public List<HistoryItem> getHistoryList() {
+    public Deque<HistoryItem> getHistoryList() {
         return historyList;
     }
 
@@ -30,8 +30,8 @@ public class History {
 
     public void addItem(HistoryItem item) {
         if (historyList.size() >= MAX_HISTORY_SIZE) {
-            historyList.remove(0);
+            historyList.removeLast();
         }
-        historyList.add(item);
+        historyList.addFirst(item);
     }
 }
